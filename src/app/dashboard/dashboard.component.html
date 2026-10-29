@@ -1,0 +1,147 @@
+<div class="agent-shell" [ngClass]="uiData?.tema_sugerido || 'default-theme'">
+
+  <!-- ===== PANTALLA DE ENTRADA ===== -->
+  <div class="onboarding-screen" *ngIf="!uiData && !cargando">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="onboarding-card">
+      <div class="agent-badge">
+        <span class="badge-icon">🤖</span>
+        <span class="badge-label">AGENTE IA ACTIVO</span>
+        <span class="badge-dot"></span>
+      </div>
+
+      <h1 class="main-title">Portal de<br><span class="gradient-text">Hiperpersonalización</span><br>Agéntica</h1>
+      <p class="subtitle">Ingresa tus datos y deja que la IA adapte esta interfaz para ti en tiempo real.</p>
+
+      <div class="form-container">
+        <div class="input-group">
+          <label class="input-label">👤 Tu Nombre</label>
+          <input
+            id="input-nombre"
+            type="text"
+            class="agent-input"
+            [(ngModel)]="nombre"
+            placeholder="Ej. Carlos García"
+          />
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">🎯 Tus Intereses</label>
+          <input
+            id="input-intereses"
+            type="text"
+            class="agent-input"
+            [(ngModel)]="intereses"
+            placeholder="Ej. Inteligencia Artificial, Ciberseguridad, Blockchain"
+          />
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">📊 Nivel de Experiencia</label>
+          <select id="select-nivel" class="agent-select" [(ngModel)]="nivel">
+            <option value="Principiante">🌱 Principiante</option>
+            <option value="Intermedio">⚡ Intermedio</option>
+            <option value="Avanzado">🚀 Avanzado</option>
+          </select>
+        </div>
+
+        <button
+          id="btn-personalizar"
+          class="btn-generate"
+          (click)="generarExperiencia()"
+          [disabled]="cargando"
+        >
+          <span class="btn-icon">✨</span>
+          Personalizar mi Interfaz con IA
+        </button>
+
+        <p class="error-msg" *ngIf="errorMensaje">
+          ⚠️ {{ errorMensaje }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PANTALLA DE CARGA AGÉNTICA ===== -->
+  <div class="loading-screen" *ngIf="cargando">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="loading-card">
+      <div class="agent-brain">
+        <div class="brain-ring ring-1"></div>
+        <div class="brain-ring ring-2"></div>
+        <div class="brain-ring ring-3"></div>
+        <span class="brain-icon">🧠</span>
+      </div>
+
+      <h2 class="loading-title">Agente trabajando...</h2>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progreso"></div>
+        </div>
+        <span class="progress-text">{{ progreso }}%</span>
+      </div>
+
+      <p class="paso-actual">{{ pasoActual }}</p>
+
+      <div class="loading-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERFAZ AGÉNTICA GENERADA ===== -->
+  <div class="agent-ui" *ngIf="uiData && !cargando">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- Header agéntico -->
+    <header class="agent-header">
+      <div class="header-left">
+        <div class="agent-badge small">
+          <span class="badge-icon">🤖</span>
+          <span class="badge-label">IA PERSONALIZADA</span>
+          <span class="badge-dot"></span>
+        </div>
+        <h1 class="greeting-text">{{ uiData.saludo }}</h1>
+      </div>
+      <div class="header-right">
+        <div class="theme-indicator">
+          <span class="theme-dot"></span>
+          Tema: <strong>{{ uiData.tema_sugerido }}</strong>
+        </div>
+        <button id="btn-reiniciar" class="btn-reset" (click)="reiniciar()">
+          🔄 Cambiar Perfil
+        </button>
+      </div>
+    </header>
+
+    <!-- Tarjetas generadas por el agente -->
+    <div class="cards-grid">
+      <div
+        class="agent-card"
+        *ngFor="let item of uiData.tarjetas; let i = index"
+        [style.animation-delay]="(i * 0.15) + 's'"
+      >
+        <div class="card-glow"></div>
+        <span class="card-badge">{{ item.etiqueta }}</span>
+        <h3 class="card-title">{{ item.titulo }}</h3>
+        <p class="card-content">{{ item.contenido }}</p>
+        <div class="card-footer">
+          <span class="card-index">{{ i + 1 }}/{{ uiData.tarjetas.length }}</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer agéntico -->
+    <footer class="agent-footer">
+      <p>⚡ Esta interfaz fue generada exclusivamente para <strong>{{ nombre }}</strong> por el Agente de Hiperpersonalización.</p>
+    </footer>
+  </div>
+
+</div>
